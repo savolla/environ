@@ -1,0 +1,39 @@
+127.0.0.1	localhost
+127.0.0.1	ubuntu2004.localdomain
+127.0.1.1	ubuntu2004.localdomain
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+# SV
+# 10.0.2.98	adc1.genemek.local
+# 10.0.2.99	sharing.genemek.local
+# 10.0.2.98	genemek.local
+# 10.0.2.105	genemek.local
+# 10.0.2.99	sharing
+
+# Devices
+# -------
+# 10.0.3.24	mega7.local
+# 10.0.3.25	mega7-fk.local
+192.168.111.100	mega7.local
+192.168.200.100	mega7.eth
+
+# dev.local and its' subdomains
+10.0.2.106 dev.local
+10.0.2.106 backup.dev.local ftp.backup.dev.local
+10.0.2.106 gitlab.dev.local prometheus.gitlab.dev.local
+10.0.2.106 buildroot.dev.local downloads.buildroot.dev.local mirror.buildroot.dev.local
+10.0.2.106 linux.dev.local sunxi.dev.local
+10.0.2.106 toolchain.dev.local armbian.dev.local
+10.0.2.106 wp.dev.local faruk.dev.local
+10.0.2.106 kitap.dev.local irclog.dev.local
+10.0.2.106 sketchfab.dev.local
+
+192.168.200.2 genemektsp.local
+10.0.3.68 genemektsp-wifi.local
+10.0.3.68 genemekkeys.local

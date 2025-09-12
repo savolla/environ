@@ -1,0 +1,100 @@
+# File:   Vagrantfile
+# Author: savolla (Kuzey Koç)
+# Date:   2024-12-6
+# E-Mail: kuzey.koc@genemek.com / savolla@protonmail.com
+# Version: 1.2
+# License: MIT License
+# Dependencies: vagrant binary 
+#
+# Purpose: this file creates a viarual machine for Genemek R&D
+#          department. includes all necessary packages. for more
+#          information refer to README or docs
+
+HOSTNAME = "arge"
+ALL_AVAILABLE_CPU_CORES = $(nproc)
+ALL_AVAILABLE_RAM = $(free --mebi | awk '/Mem:/ { print $2 }')
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/ubuntu2004"
+  config.vm.provider "libvirt" do |libvirt|
+    libvirt.memory = ${ALL_AVAILABLE_RAM}
+    libvirt.cpus = ${ALL_AVAILABLE_CPU_CORES}
+    libvirt.cpu_mode = 'host-passthrough'
+    libvirt.keymap = "tr"
+    libvirt.graphics_type = "spice"
+    libvirt.video_type = "qxl"
+    # libvirt.soundcard = "ich6" 
+    (1..8).each do
+      libvirt.redirdev :type => "spicevmc"
+    end
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+
+  # add forticlient repo
+  wget -O - https://repo.fortinet.com/repo/forticlient/7.4/ubuntu22/DEB-GPG-KEY | gpg --dearmor | sudo tee /usr/share/keyrings/repo.fortinet.com.gpg
+  echo "deb [arch=amd64 signed-by=/usr/share/keyrings/repo.fortinet.com.gpg] https://repo.fortinet.com/repo/forticlient/7.4/ubuntu22/ stable non-free" > /etc/apt/sources.list.d/repo.fortinet.com.list
+
+  # update & upgrade
+  apt-get update
+  apt-get upgrade -y 
+
+  # install packages
+  apt-get install -y gnome-core # desktop environment
+  apt-get install -y forticlient # vpn manager
+  apt-get install -y python3-pip # qtcreator requires this
+  apt-get install -y libusb-1.0-0-dev # qtcreator needs this
+  apt-get install -y docker.io # for buildroot build environments
+  apt-get install -y libxcb-cursor0 libxcb-cursor-dev # qtcreator requires xcb cursor
+  apt install -y libnotify-bin # send desktop notifications
+  apt install -y xdg-utils # vscode dependency
+  apt install -y jq # buildroot requires this
+  apt install -y sunxi-tools # sunxi-fel is included here
+  apt install -y picocom # serial communication
+  apt install -y clang # qtcreator needs this
+
+  # add user to docker group
+  usermod -a -G docker vagrant
+
+  # install sound packages
+  apt-get install -y pulseaudio alsa-utils pavucontrol
+
+  # clean apt cache
+  apt-get clean
+
+  # install nix
+  yes | sh <(curl -L https://nixos.org/nix/install) --daemon
+  source /etc/profile.d/nix.sh # source nix binaries in current shell
+
+  # install home-manager
+  nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+  nix-channel --update 
+  nix-shell '<home-manager>' -A install
+
+  # install nixGL for qtcreator
+  nix-channel --add https://github.com/nix-community/nixGL/archive/main.tar.gz nixgl 
+  nix-channel --update
+  nix-env -iA nixgl.auto.nixGLDefault
+
+  # set hostname
+  echo "#{HOSTNAME}" > /etc/hostname
+
+  # set default keyboard layout
+  localectl set-keymap tr
+  localectl set-x11-keymap tr
+
+  # force Gnome launch into Xorg instead of Wayland (better system handling)
+  sed -i 's/^#\s*WaylandEnable=false/WaylandEnable=false/' /etc/gdm3/custom.conf
+
+  # set root password
+  echo "root:vagrant" | sudo chpasswd
+
+  SHELL
+
+  # copy home file system to vm
+  config.vm.provision "file", source: "./fs", destination: "/home/vagrant"
+  config.vm.provision "file", source: "./fs/root/hosts", destination: "/etc/"
+
+  # reboot the machine for desktop login
+  config.vm.provision "shell", inline: "reboot"
+end

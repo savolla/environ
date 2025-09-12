@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+echo ".------------------------------------."
+echo "| welcome to embedded container!     |"
+echo ":------------------------------------:"
+echo "| root password: docker              |"
+echo "'------------------------------------'"
+docker run -it --rm \
+  --mount type=bind,source=$HOME,target=/home/$USER \
+  --hostname embedded \
+  -v /etc/passwd:/etc/passwd:ro \
+  -v /etc/group:/etc/group:ro \
+  embedded:latest
+

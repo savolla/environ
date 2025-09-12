@@ -1,0 +1,82 @@
+## run these as root
+sudo xbps-install -S curl -y || exit
+sudo xbps-install -S libX11-devel -y || exit
+sudo xbps-install -S libXft-devel -y || exit
+sudo xbps-install -S libXinerama-devel -y || exit
+sudo xbps-install -S pkg-config -y || exit
+sudo xbps-install -S st-terminfo -y || exit
+sudo xbps-install -S xz -y || exit
+sudo xbps-install -S ranger -y || exit
+sudo xbps-install -S dbus -y || exit # flatpak dep
+sudo xbps-install -S xdg-desktop-portal # flatpak dep
+sudo xbps-install -S polkit # flatpak dep
+sudo xbps-install -S neovim -y || exit
+sudo xbps-install -S setxkbmap -y || exit
+sudo xbps-install -S xset -y || exit
+sudo xbps-install -S exa -y || exit
+sudo xbps-install -S htop -y || exit
+sudo xbps-install -S mpv -y || exit
+sudo xbps-install -S xrandr -y || exit
+sudo xbps-install -S picom -y || exit
+sudo xbps-install -S tmux -y || exit
+sudo xbps-install -S git -y || exit
+sudo xbps-install -S firefox -y || exit
+sudo xbps-install -S ripgrep -y || exit
+sudo xbps-install -S fd -y || exit
+sudo xbps-install -S cmake # for vterm (doom emacs)
+sudo xbps-install -S nodejs # for doom emacs lsp
+sudo xbps-install -S npm # for doom emacs lsp
+sudo xbps-install -S ncdu
+sudo xbps-install -S lazygit # for lazygit
+sudo xbps-install -S util-linux
+sudo xbps-install -S emacs -y || exit
+sudo xbps-install -S gparted -y || exit
+sudo xbps-install -S make -y || exit
+sudo xbps-install -S gcc -y || exit
+sudo xbps-install -S fzf -y || exit
+sudo xbps-install -S build-base texinfo ncurses-dev # for doom emacs to be compiled
+sudo xbps-install -S linux-headers libx11-dev libxft-dev ncurses libxinerama-dev # suckless utils to be compiled
+sudo xbps-install -S adwaita-icon-theme xterm # for window manager dark themes
+sudo xbps-install -S font-liberation-ttf # for st terminal font
+sudo xbps-install -S zsh -y || exit
+sudo xbps-install -S udiskie -y || exit
+sudo xbps-install -S libnotify -y || exit
+sudo xbps-install -S pcmanfm -y || exit
+sudo xbps-install -S nsxiv -y || exit
+sudo xbps-install -S feh -y || exit
+sudo xbps-install -S unclutter-xfixes -y || exit
+sudo xbps-install -S dbus-x11 # necessary
+sudo xbps-install -S xorg -y || exit
+sudo xbps-install -S sxhkd -y || exit
+sudo xbps-install -S xdotool -y || exit
+sudo xbps-install -S nerd-fonts-ttf -y || exit
+sudo xbps-install -S xsel -y || exit
+sudo xbps-install -S zip -y || exit
+sudo xbps-install -S unzip -y || exit
+sudo xbps-install -S tldr -y || exit
+
+# video and graphics accelration stuff 
+sudo xbps-install -S xf86-video-intel
+sudo xbps-install -S xf86-video-vesa
+sudo xbps-install -S xf86-input-synaptics
+
+# # appimage settings00o
+# touch /bin/logseq
+# chmod +x /bin/logseq
+# echo "flatpak run com.logseq.Logseq" > /bin/logseq
+# touch /bin/flatseal
+# chmod +x /bin/flatseal
+# echo "flatpak run com.github.tchx84.Flatseal" > /bin/flatseal
+# touch /bin/codium
+# chmod +x /bin/codium
+# echo "flatpak run com.vscodium.codium" > /bin/codium
+ 
+# xorg and other stuff
+
+
+sudo xbps-install -S font-terminus font-inconsolata font-dejavu font-noto font-noto-cjk font-awesome font-noto-extra
+sudo xbps-install -S nerd-fonts-symbols-ttf # for icons
+
+# shel configuration
+chsh -s /bin/zsh savolla # change shell from sh to zsh for savolla
+curl -sS https://starship.rs/install.sh | sh # install starship

@@ -1,0 +1,21 @@
+- download alpine virt iso 
+- install virtualbox
+- install alpine virtual machine 
+- select `busybox` instead of `chroned`
+- select `none` for ssh server
+- poweroff the machine 
+- remove iso file from boot order
+- add your shred folder 
+- change sound controller to intel instead of AC
+- enable 3d acceleration
+- enable KVM in hypervisor (if you're on linux)
+- launch alpine vm
+- login as root  
+- `mkdir /media/shared`
+- `apk update && apk upgrade`
+- `apk add virtualbox-guest-addititons`
+- `rc-update add virtualbox-guest-additions default`
+- `reboot`
+- login as root
+- run `post-install`
+

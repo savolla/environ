@@ -1,0 +1,46 @@
+# creating file system
+ln -s /media/shared/.xinitrc /home/savolla
+ln -s /media/shared/project /home/savolla
+ln -s /media/shared/archive /home/savolla
+ln -s /media/shared/resource /home/savolla
+ln -s /media/shared/temporary /home/savolla
+ln -s /media/shared/area /home/savolla
+ln -s /media/shared/.zshrc /home/savolla
+ln -s /media/shared/.bashrc /home/savolla
+ln -s /media/shared/.gitconfig /home/savolla
+mkdir -p /home/savolla/.config
+ln -s /media/shared/.config/* /home/savolla/.config/
+mkdir -p /home/savolla/.var/app/com.vscodium.codium/data/codium
+mkdir -p /home/savolla/.var/app/com.vscodium.codium/config
+ln -s /media/shared/.config/VSCodium /home/savolla/.var/app/com.vscodium.codium/config/
+ln -s /media/shared/.vscode-oss/extensions /home/savolla/.var/app/com.vscodium.codium/data/codium/
+
+# logseq config
+ln -s /media/shared/.logseq /home/savolla/
+
+git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs
+~/.config/emacs/bin/doom install
+~/.config/emacs/bin/doom sync
+
+# install custom suckless utils
+cd /home/savolla/project/suckless/dmenu-5.3
+sudo make install
+make clean # claning necessary because it builds with musl and nixos cannor run this binary
+
+cd /home/savolla/project/suckless/dwm-6.5/ 
+sudo make install
+make clean
+
+cd /home/savolla/project/suckless/st-0.9.2/ 
+sudo make install
+make clean
+
+cd /home/savolla/project/suckless/slstatus/ 
+sudo make install
+make clean
+
+echo "[INFO] system will reboot. everything is setup. relogin as savolla and do what you want"
+read
+echo "[INFO] launch flatseal and enable host file system access for logseq"
+read
+sudo reboot

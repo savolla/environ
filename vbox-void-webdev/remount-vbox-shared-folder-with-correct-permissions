@@ -1,0 +1,2 @@
+sudo umount /home/savolla
+sudo mount -t vboxsf savolla /home/savolla -o uid=1000,gid=1000,rw,dmode=755

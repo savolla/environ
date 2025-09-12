@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+USERNAME=genemek
+PASSWORD=gen2071
+
+# install nix packages
+echo -e "[INFO] install nix packages via home manager"
+home-manager switch
+
+# install doom emacs
+echo -e "[INFO] installing doom emacs"
+git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs
+~/.config/emacs/bin/doom install --env --fonts --hooks -!
+~/.config/emacs/bin/doom sync
+
+# set dark theme on gnome
+echo -e "[INFO] setting GNOME desktop settings"
+gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark" # enable dark theme
+gsettings set org.gnome.desktop.background picture-uri "$HOME/resource/images/wallpapers/genemek-wp.jpeg" # set wallpaper
+gsettings set org.gnome.desktop.wm.preferences button-layout ":minimize,maximize,close" # place window icons
+gsettings set org.gnome.desktop.screensaver lock-enabled false # disable automatic screen lock
+gsettings set org.gnome.desktop.session idle-delay 0 # disable screen blank
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing' # disable automatic suspend
+
+# clean ~/home
+echo -e "[INFO] deleting gnome desktop folders"
+rmdir ~/Documents
+rmdir ~/Pictures
+rmdir ~/Templates
+rmdir ~/Videos
+rmdir ~/Music
+rmdir ~/Downloads
+rmdir ~/Desktop
+rmdir ~/Public
+
+# create ssh keypair
+echo -e "[INFO] generating ssh keypair. press Enter three times."
+ssh-keygen -t rsa
+
+# # replace vagrant user with yours
+# sudo usermod -l #{USERNAME} vagrant
+# sudo mv /home/vagrant /home/savolla
+# sudo usermode -d /home/savolla -m savolla
+# echo "${USERNAME}:${PASSWORD}" | sudo chpasswd
+
+# remove this script
+rm ./run-me

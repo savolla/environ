@@ -1,0 +1,118 @@
+## run these as root
+apk add shadow
+apk add sudo
+apk add bash
+apk add curl
+apk add xz
+apk add ranger
+apk add dbus # flatpak dep
+apk add xdg-desktop-portal # flatpak dep
+apk add polkit # flatpak dep
+apk add gcompat
+# apk add nix
+apk add neovim
+apk add setxkbmap
+apk add xset
+apk add exa
+apk add htop
+apk add mpv
+apk add xrandr
+apk add picom
+apk add tmux
+apk add git
+apk add firefox
+apk add ripgrep
+apk add fd
+apk add cmake # for vterm (doom emacs)
+apk add nodejs # for doom emacs lsp
+apk add npm # for doom emacs lsp
+apk add ncdu
+apk add lazygit # for lazygit
+apk add util-linux
+apk add emacs-x11-nativecomp
+apk add gparted
+apk add fzf
+apk add build-base texinfo ncurses-dev # for doom emacs to be compiled
+apk add linux-headers libx11-dev libxft-dev ncurses libxinerama-dev # suckless utils to be compiled
+apk add adwaita-icon-theme xterm # for window manager dark themes
+apk add font-liberation # for st terminal font
+apk add zsh
+apk add udiskie
+apk add libnotify
+apk add pcmanfm
+apk add nsxiv
+apk add feh
+apk add unclutter-xfixes
+apk add dbus-x11 # necessary
+
+# video and graphics accelration stuff 
+apk add xf86-video-intel
+apk add xf86-video-vesa
+apk add xf86-input-synaptics
+
+# flatpak setup
+apk add flatpak
+usermod -aG flatpak savolla # install flatpaks
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub com.logseq.Logseq -y
+flatpak install flathub com.vscodium.codium -y
+flatpak install flathub com.github.tchx84.Flatseal -y
+touch /bin/logseq
+chmod +x /bin/logseq
+echo "flatpak run com.logseq.Logseq" > /bin/logseq
+touch /bin/flatseal
+chmod +x /bin/flatseal
+echo "flatpak run com.github.tchx84.Flatseal" > /bin/flatseal
+touch /bin/codium
+chmod +x /bin/codium
+echo "flatpak run com.vscodium.codium" > /bin/codium
+
+# xorg and other stuff
+setup-xorg-base
+
+apk add font-terminus font-inconsolata font-dejavu font-noto font-noto-cjk font-awesome font-noto-extra
+apk add nerd-fonts-all # for icons
+
+# setup elogind for user session (correct permissions and other good stuff)
+apk add elogind
+rc-update add elogind
+rc-service elogind start
+
+usermod -aG wheel savolla  # use sudo as savolla
+usermod -aG vboxsf savolla # access shared folder by virtualbox
+usermod -aG video savolla # run xinit and use xorg
+usermod -aG audio savolla # to use pipewire
+
+# shel configuration
+chsh -s /bin/zsh savolla # change shell from sh to zsh for savolla
+curl -sS https://starship.rs/install.sh | sh # install starship
+
+# setup dbus
+rc-update add dbus
+rc-service dbus start
+
+# setup polkit
+apk add polkit-elogind
+rc-update add polkit
+rc-service polkit start
+
+# # setup pipewire (sound)
+apk add pipewire
+apk add wireplumber
+apk add pipewire-pulse
+
+# # setup nix package manager
+# usermod -aG nix savolla
+# usermod -aG nixbld savolla
+# rc-update add nix-daemon
+# rc-service nix-daemon start
+# nix-channel --add https://nixos.org/channels/nixos-unstable nixpkgs
+# nix-channel --update
+
+echo "[INFO] now you'll uncomment whell ALL string in sudoers"
+read
+visudo 
+
+echo "[INFO] machine will reboot. relogin as savolla and run post-install2"
+read
+reboot

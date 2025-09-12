@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# install libvirt provider for vagrant if not already installed
+if ! vagrant plugin list | grep -q "vagrant-libvirt"; then
+  echo "Installing vagrant-libvirt plugin..."
+  vagrant plugin install vagrant-libvirt
+else
+  echo "vagrant-libvirt plugin is already installed."
+fi
+
+# create the machine
+vagrant up --provider=libvirt
