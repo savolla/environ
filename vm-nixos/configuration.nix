@@ -521,6 +521,7 @@ in {
     texlivePackages.librebaskerville # main font
     libre-baskerville # above font does not work
     texlivePackages.plex # sans and mono fonts
+    texlivePackages.shadowtext # put shadow behind text
 
     # development
     gh # github cli
