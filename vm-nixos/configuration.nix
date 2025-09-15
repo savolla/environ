@@ -478,7 +478,7 @@ in {
     # gxplugins-lv2 # guitar amps, pedals, effects
     # neural-amp-modeler-lv2 # you'll download guitar tones for this below
     # guitarix # a virtual guitar amplifier for Linux running with JACK
-    # tuxguitar # guitar pro for linux
+    tuxguitar # guitar pro for linux
     # musescore # sheet happens
     # tonelib-jam # 3d tab editor (paid)
     # tonelib-gfx # good guitar amp
