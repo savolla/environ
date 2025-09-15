@@ -455,8 +455,6 @@ in {
     # bottles-unwrapped # powerful wine thing
     # unigine-valley # test GPU drivers
     # protonup # proton-ge
-    # wineWowPackages.staging # wine staging version
-    # winetricks # install windows dlls with this
     # retroarchFull # retroarch + cores
     # ryujinx # switch emulator
     # antimicrox # map ps4 controller keys to nintendo switch and others
@@ -465,6 +463,11 @@ in {
     # antimicrox # same as input-remapper but easier to use
     # qjoypad # play ryujinx games with mouse and keyboard
     # sc-controller # emulate joysticks on linux (to play swtich games using mouse and keyboard)
+
+    # wine
+    wineWowPackages.staging # wine-staging with experimental features
+    wineWowPackages.waylandFull # native wayland support (unstable)
+    winetricks # install windows dlls with this
 
     # # music
     # daw
